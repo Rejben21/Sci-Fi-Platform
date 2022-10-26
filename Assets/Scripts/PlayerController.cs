@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheckpoint;
     public LayerMask whatIsGround;
 
+    public bool canDoubleJump;
+    private bool shouldDoubleJump;
+
     private bool isGrounded;
 
     private new Rigidbody2D rigidbody;
@@ -59,9 +62,25 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = Physics2D.OverlapPoint(groundCheckpoint.position, whatIsGround);
 
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if(isGrounded)
         {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
+            shouldDoubleJump = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if(isGrounded)
+            {
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
+            }
+            else
+            {
+                if(canDoubleJump && shouldDoubleJump)
+                {
+                    rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
+                    shouldDoubleJump = true;
+                }
+            }
         }
     }
 
