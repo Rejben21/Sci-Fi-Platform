@@ -28,7 +28,7 @@ public class BulletController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(!other.CompareTag("Player"))
+        if(other.CompareTag("Enemy"))
         {
             Destroy(gameObject);
         }
@@ -36,6 +36,7 @@ public class BulletController : MonoBehaviour
         if(other.CompareTag("Ground"))
         {
             Instantiate(contactEffect, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
     }
 }
